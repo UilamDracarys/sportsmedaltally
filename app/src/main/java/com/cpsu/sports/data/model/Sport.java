@@ -43,4 +43,15 @@ public class Sport {
     public void setSportID(String sportID) {
         this.sportID = sportID;
     }
+
+    public int getIdxByItem(String[] array, String att) {
+        int idx = 0;
+        for (int i=0; i <array.length; i++) {
+            if(array[i].contains(att)) {
+                idx = i;
+                break;
+            }
+        }
+        return idx;
+    }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.SportDetail">
+    tools:context=".activities.MedalDetail">
 
     <LinearLayout
         android:paddingTop="10dp"
@@ -12,35 +12,27 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <Spinner
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtSportName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Sport Name" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginEnd="10dp"
+            android:id="@+id/spnMedalType"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:entries="@array/medal_types"/>
 
         <Spinner
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:id="@+id/spnSportCat"
+            android:id="@+id/spnSport"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:entries="@array/sport_categories" />
-
+            android:layout_height="40dp" />
 
         <Spinner
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:id="@+id/spnSportType"
+            android:id="@+id/spnAthCol"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:entries="@array/sport_types" />
+            android:layout_height="40dp" />
 
     </LinearLayout>
 

@@ -10,7 +10,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.SportDetail"></activity>
+        <activity android:name=".activities.MedalDetail"></activity>
+        <activity android:name=".activities.AthleteDetail" />
+        <activity android:name=".activities.AthleteList" />
+        <activity android:name=".activities.CollegeList" />
+        <activity android:name=".activities.CollegeDetail" />
+        <activity android:name=".activities.SportDetail" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.LoginActivity">
@@ -21,8 +26,8 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

@@ -81,6 +81,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent register = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(register);
+                mTextUsername.setText("");
+                mTextPassword.setText("");
             }
         });
     }
@@ -96,5 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         return true;
     }
+
+
 
 }

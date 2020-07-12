@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.cpsu.sports.data.DBHelper;
 import com.cpsu.sports.data.DatabaseManager;
 import com.cpsu.sports.data.model.Athlete;
+import com.cpsu.sports.data.model.College;
 import com.cpsu.sports.data.model.Sport;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class AthleteRepo {
         ContentValues values = new ContentValues();
 
         values.put(Athlete.COL_ATHLETE_NAME, athlete.getAthleteName());
-        values.put(Athlete.COL_ATHLETE_ADD, athlete.getAthleteCol());
+        values.put(Athlete.COL_ATHLETE_ADD, athlete.getAthleteAdd());
         values.put(Athlete.COL_ATHLETE_COL, athlete.getAthleteCol());
 
         // Inserting Row
@@ -49,7 +50,7 @@ public class AthleteRepo {
         ContentValues values = new ContentValues();
 
         values.put(Athlete.COL_ATHLETE_NAME, athlete.getAthleteName());
-        values.put(Athlete.COL_ATHLETE_ADD, athlete.getAthleteCol());
+        values.put(Athlete.COL_ATHLETE_ADD, athlete.getAthleteAdd());
         values.put(Athlete.COL_ATHLETE_COL, athlete.getAthleteCol());
 
         db.update(Athlete.TABLE_ATHLETES, values, Athlete.COL_ATHLETE_ID+ "= ? ", new String[]{String.valueOf(athlete.getAthleteID())});
@@ -65,8 +66,10 @@ public class AthleteRepo {
         String selectQuery = "SELECT " + Athlete.COL_ATHLETE_ID + " as AthleteID, " +
                 Athlete.COL_ATHLETE_NAME + " as AthleteName, " +
                 Athlete.COL_ATHLETE_ADD + " as AthleteAdd, " +
-                Athlete.COL_ATHLETE_COL + " as AthleteCol " +
+                "(SELECT " + College.COL_COLLEGE_NAME + " FROM " + College.TABLE_COLLEGES  + " " +
+                "WHERE " + College.COL_COLLEGE_ID + " = " + Athlete.COL_ATHLETE_COL + ") as AthleteCol " +
                 "FROM " + Athlete.TABLE_ATHLETES + " ORDER BY AthleteName";
+        System.out.println(selectQuery);
 
         ArrayList<HashMap<String, String>> athleteList = new ArrayList<>();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -75,10 +78,10 @@ public class AthleteRepo {
         if (cursor.moveToFirst()) {
             do {
                 HashMap<String, String> athletes = new HashMap<>();
-                athletes.put("athleteID", cursor.getString(cursor.getColumnIndex("AthleteID")));
-                athletes.put("athleteName", cursor.getString(cursor.getColumnIndex("AthleteName")));
-                athletes.put("athleteAdd", cursor.getString(cursor.getColumnIndex("AthleteAdd")));
-                athletes.put("athleteCol", cursor.getString(cursor.getColumnIndex("AthleteCol")));
+                athletes.put("ID", cursor.getString(cursor.getColumnIndex("AthleteID")));
+                athletes.put("Name", cursor.getString(cursor.getColumnIndex("AthleteName")));
+                athletes.put("Address", cursor.getString(cursor.getColumnIndex("AthleteAdd")));
+                athletes.put("College", cursor.getString(cursor.getColumnIndex("AthleteCol")));
                 athleteList.add(athletes);
             } while (cursor.moveToNext());
         }
@@ -96,7 +99,7 @@ public class AthleteRepo {
                 Athlete.COL_ATHLETE_NAME + " as AthleteName, " +
                 Athlete.COL_ATHLETE_ADD + " as AthleteAdd, " +
                 Athlete.COL_ATHLETE_COL + " as AthleteCol " +
-                "FROM " + Athlete.TABLE_ATHLETES + " ORDER BY AthleteName";
+                "FROM " + Athlete.TABLE_ATHLETES + " WHERE AthleteID = ?";
 
         Athlete athlete = new Athlete();
 

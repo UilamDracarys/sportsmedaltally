@@ -18,10 +18,33 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="sports">Sports</string>
+    <string name="colleges">Colleges</string>
+    <string name="save">Save</string>
+    <string name="athletes">Athletes</string>
+    <string name="medals">Medals</string>
+    <string name="action_edit">Edit</string>
 
     <string-array name="sport_types">
-        <item>--Select Sport Type--</item>
+        <item>--- Select Sport Type ---</item>
         <item>Team</item>
         <item>Individual</item>
     </string-array>
+
+    <string-array name="sport_categories">
+        <item>--- Select Sport Category ---</item>
+        <item>None</item>
+        <item>Mens</item>
+        <item>Womens</item>
+        <item>Singles</item>
+        <item>Doubles</item>
+    </string-array>
+
+    <string-array name="medal_types">
+        <item>--- Select Medal Type ---</item>
+        <item>Gold</item>
+        <item>Silver</item>
+        <item>Bronze</item>
+    </string-array>
+
 </resources>

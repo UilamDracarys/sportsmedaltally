@@ -100,7 +100,7 @@ public class MedalRepo {
                 Medal.COL_ATH_COL_ID + " as AthColID, " +
                 Medal.COL_SPORT_ID + " as SportID, " +
                 Medal.COL_MEDAL_TYPE + " as MedalType " +
-                "FROM " + Medal.TABLE_MEDALS + " ORDER BY MedalID";
+                "FROM " + Medal.TABLE_MEDALS + " WHERE MedalID = ?";
 
         Medal medal = new Medal();
 

@@ -73,12 +73,17 @@ public class SportRepo {
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
+            System.out.println("MoveToFirst");
             do {
                 HashMap<String, String> sports = new HashMap<>();
-                sports.put("sportID", cursor.getString(cursor.getColumnIndex("SportID")));
-                sports.put("sportName", cursor.getString(cursor.getColumnIndex("SportName")));
-                sports.put("sportCategory", cursor.getString(cursor.getColumnIndex("SportCategory")));
-                sports.put("sportType", cursor.getString(cursor.getColumnIndex("SportType")));
+                sports.put("ID", cursor.getString(cursor.getColumnIndex("SportID")));
+                String sportCat = cursor.getString(cursor.getColumnIndex("SportCategory"));
+                if (!sportCat.equalsIgnoreCase("None")) {
+                    sports.put("Name", cursor.getString(cursor.getColumnIndex("SportName")) + " (" + sportCat + ")");
+                } else {
+                    sports.put("Name", cursor.getString(cursor.getColumnIndex("SportName")));
+                }
+                sports.put("Type", cursor.getString(cursor.getColumnIndex("SportType")));
                 sportList.add(sports);
             } while (cursor.moveToNext());
         }
@@ -96,7 +101,7 @@ public class SportRepo {
                 Sport.COL_SPORT_NAME + " as SportName, " +
                 Sport.COL_SPORT_CATEGORY + " as SportCategory, " +
                 Sport.COL_SPORT_TYPE + " as SportType " +
-                "FROM " + Sport.TABLE_SPORTS + " ORDER BY SportName";
+                "FROM " + Sport.TABLE_SPORTS + " WHERE SportID = ?";
 
         Sport sport = new Sport();
 
@@ -114,6 +119,26 @@ public class SportRepo {
         cursor.close();
         DatabaseManager.getInstance().closeDatabase();
         return sport;
+    }
+
+    public String getSportType(String id) {
+        dbHelper = new DBHelper();
+        db = dbHelper.getReadableDatabase();
+        String sportType = "";
+
+        String selectQuery = "SELECT " + Sport.COL_SPORT_TYPE + " as SportType " +
+                "FROM " + Sport.TABLE_SPORTS + " WHERE " + Sport.COL_SPORT_ID + " =?";
+
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{id});
+        if (cursor.moveToFirst()) {
+            do {
+                sportType = cursor.getString(cursor.getColumnIndex("SportType"));
+
+            } while (cursor.moveToNext());
+        }
+
+        return sportType;
+
     }
 
 

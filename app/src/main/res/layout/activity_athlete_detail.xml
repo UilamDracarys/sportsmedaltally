@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.SportDetail">
-
+    tools:context=".activities.AthleteDetail">
     <LinearLayout
         android:paddingTop="10dp"
         android:layout_width="match_parent"
@@ -19,29 +18,31 @@
             android:layout_marginEnd="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtSportName"
+                android:id="@+id/txtAthleteName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Sport Name" />
+                android:hint="Name" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtAthleteAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:id="@+id/spnSportCat"
+            android:id="@+id/spnCollege"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:entries="@array/sport_categories" />
-
-
-        <Spinner
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:id="@+id/spnSportType"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:entries="@array/sport_types" />
-
+            android:layout_height="40dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

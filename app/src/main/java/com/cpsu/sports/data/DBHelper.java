@@ -5,8 +5,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.cpsu.sports.app.App;
-import com.cpsu.sports.data.model.Athlete;
-import com.cpsu.sports.data.model.College;
 import com.cpsu.sports.data.repo.AthleteRepo;
 import com.cpsu.sports.data.repo.CollegeRepo;
 import com.cpsu.sports.data.repo.MedalRepo;
