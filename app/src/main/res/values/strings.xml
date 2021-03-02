@@ -24,6 +24,7 @@
     <string name="athletes">Athletes</string>
     <string name="medals">Medals</string>
     <string name="action_edit">Edit</string>
+    <string name="log_out">Log Out</string>
 
     <string-array name="sport_types">
         <item>--- Select Sport Type ---</item>

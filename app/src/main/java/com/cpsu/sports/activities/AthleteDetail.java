@@ -120,6 +120,9 @@ public class AthleteDetail extends AppCompatActivity {
             }
             Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
             finish();
+            Intent athleteList = new Intent(AthleteDetail.this, AthleteList.class);
+            athleteList.putExtra("title", "Athlete List");
+            startActivity(athleteList);
         }
 
     }
@@ -161,10 +164,6 @@ public class AthleteDetail extends AppCompatActivity {
         main.add(firstItem);
         ArrayList<HashMap<String, String>> collegeList = collegeRepo.getCollegeList();
         main.addAll(collegeList);
-
-
-        System.out.println("CollegeID: " + collegeID);
-        System.out.println("Main: " + main.get(1).get("ID"));
 
 
 

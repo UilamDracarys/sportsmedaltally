@@ -120,4 +120,38 @@ public class AthleteRepo {
         return athlete;
     }
 
+    public ArrayList<String> getAthletesForSpinner() {
+        //Open connection to read only
+        //db = DatabaseManager.getInstance().openDatabase();
+        dbHelper = new DBHelper();
+        db = dbHelper.getReadableDatabase();
+
+        String selectQuery = "SELECT " + Athlete.COL_ATHLETE_ID + " as AthleteID, " +
+                Athlete.COL_ATHLETE_NAME + " as AthleteName, " +
+                Athlete.COL_ATHLETE_ADD + " as AthleteAdd, " +
+                "(SELECT " + College.COL_COLLEGE_CODE + " FROM " + College.TABLE_COLLEGES  + " " +
+                "WHERE " + College.COL_COLLEGE_ID + " = " + Athlete.COL_ATHLETE_COL + ") as AthleteCol " +
+                "FROM " + Athlete.TABLE_ATHLETES + " ORDER BY AthleteName";
+        System.out.println(selectQuery);
+
+        ArrayList<String> athleteList = new ArrayList<>();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                String athleteID = cursor.getString(cursor.getColumnIndex("AthleteID"));
+                String athleteName = cursor.getString(cursor.getColumnIndex("AthleteName"));
+                String collegeCode = cursor.getString(cursor.getColumnIndex("AthleteCol"));
+                String item = athleteName + " ["  + athleteID + "] | " + collegeCode;
+                athleteList.add(item);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        DatabaseManager.getInstance().closeDatabase();
+        return athleteList;
+    }
+
+
 }

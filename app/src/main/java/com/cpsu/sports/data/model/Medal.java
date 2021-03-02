@@ -3,14 +3,27 @@ package com.cpsu.sports.data.model;
 public class Medal {
     public static final String TABLE_MEDALS = "medals";
     public static final String COL_MEDAL_ID = "medal_id";
-    public static final String COL_ATH_COL_ID = "ath_col_id";
+
+    //Renamed column from ath_col_id to col_id;
+    public static final String COL_OLD_ATHCOLID = "ath_col_id";
+    public static final String COL_COL_ID = "col_id";
+    public static final String COL_ATH_ID = "ath_id";
     public static final String COL_SPORT_ID = "sport_id";
     public static final String COL_MEDAL_TYPE = "medal_type";
 
     private String medalID;
-    private String athColID;
+    private String colID;
+    private String athID;
     private String sportID;
     private String medalType;
+
+    public String getAthID() {
+        return athID;
+    }
+
+    public void setAthID(String athID) {
+        this.athID = athID;
+    }
 
     public String getMedalID() {
         return medalID;
@@ -20,12 +33,12 @@ public class Medal {
         this.medalID = medalID;
     }
 
-    public String getAthColID() {
-        return athColID;
+    public String getColID() {
+        return colID;
     }
 
-    public void setAthColID(String athColID) {
-        this.athColID = athColID;
+    public void setColID(String colID) {
+        this.colID = colID;
     }
 
     public String getSportID() {

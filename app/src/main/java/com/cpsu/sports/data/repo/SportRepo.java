@@ -78,12 +78,14 @@ public class SportRepo {
                 HashMap<String, String> sports = new HashMap<>();
                 sports.put("ID", cursor.getString(cursor.getColumnIndex("SportID")));
                 String sportCat = cursor.getString(cursor.getColumnIndex("SportCategory"));
+
                 if (!sportCat.equalsIgnoreCase("None")) {
                     sports.put("Name", cursor.getString(cursor.getColumnIndex("SportName")) + " (" + sportCat + ")");
                 } else {
                     sports.put("Name", cursor.getString(cursor.getColumnIndex("SportName")));
                 }
                 sports.put("Type", cursor.getString(cursor.getColumnIndex("SportType")));
+                sports.put("Category", sportCat);
                 sportList.add(sports);
             } while (cursor.moveToNext());
         }

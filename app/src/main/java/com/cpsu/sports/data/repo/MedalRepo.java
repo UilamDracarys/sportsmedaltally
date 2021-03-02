@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.cpsu.sports.data.DBHelper;
 import com.cpsu.sports.data.DatabaseManager;
-import com.cpsu.sports.data.model.Athlete;
 import com.cpsu.sports.data.model.Medal;
 
 import java.util.ArrayList;
@@ -23,7 +22,8 @@ public class MedalRepo {
     public static String createMedalsTable() {
         String query = "CREATE TABLE IF NOT EXISTS " + Medal.TABLE_MEDALS + " (" +
                 Medal.COL_MEDAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                Medal.COL_ATH_COL_ID + " TEXT, " +
+                Medal.COL_COL_ID + " TEXT, " +
+                Medal.COL_ATH_ID + " TEXT, " +
                 Medal.COL_SPORT_ID + " TEXT, " +
                 Medal.COL_MEDAL_TYPE + " TEXT)";
         return query;
@@ -34,10 +34,10 @@ public class MedalRepo {
         db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(Medal.COL_ATH_COL_ID, medal.getAthColID());
+        values.put(Medal.COL_COL_ID, medal.getColID());
+        values.put(Medal.COL_ATH_ID, medal.getAthID());
         values.put(Medal.COL_SPORT_ID, medal.getSportID());
         values.put(Medal.COL_MEDAL_TYPE, medal.getMedalType());
-
 
         // Inserting Row
         db.insert(Medal.TABLE_MEDALS, null, values);
@@ -50,7 +50,8 @@ public class MedalRepo {
         ContentValues values = new ContentValues();
 
 
-        values.put(Medal.COL_ATH_COL_ID, medal.getAthColID());
+        values.put(Medal.COL_COL_ID, medal.getColID());
+        values.put(Medal.COL_ATH_ID, medal.getColID());
         values.put(Medal.COL_SPORT_ID, medal.getSportID());
         values.put(Medal.COL_MEDAL_TYPE, medal.getMedalType());
 
@@ -66,7 +67,8 @@ public class MedalRepo {
         db = dbHelper.getReadableDatabase();
 
         String selectQuery = "SELECT " + Medal.COL_MEDAL_ID + " as MedalID, " +
-                Medal.COL_ATH_COL_ID + " as AthColID, " +
+                Medal.COL_COL_ID + " as ColID, " +
+                Medal.COL_ATH_ID + " as AthID, " +
                 Medal.COL_SPORT_ID + " as SportID, " +
                 Medal.COL_MEDAL_TYPE + " as MedalType " +
                 "FROM " + Medal.TABLE_MEDALS + " ORDER BY MedalID";
@@ -79,7 +81,8 @@ public class MedalRepo {
             do {
                 HashMap<String, String> medals = new HashMap<>();
                 medals.put("medalID", cursor.getString(cursor.getColumnIndex("MedalID")));
-                medals.put("athColID", cursor.getString(cursor.getColumnIndex("AthColID")));
+                medals.put("colID", cursor.getString(cursor.getColumnIndex("ColID")));
+                medals.put("athID", cursor.getString(cursor.getColumnIndex("AthID")));
                 medals.put("sportID", cursor.getString(cursor.getColumnIndex("SportID")));
                 medals.put("medalType", cursor.getString(cursor.getColumnIndex("MedalType")));
                 medalList.add(medals);
@@ -97,7 +100,8 @@ public class MedalRepo {
 
 
         String selectQuery = "SELECT " + Medal.COL_MEDAL_ID + " as MedalID, " +
-                Medal.COL_ATH_COL_ID + " as AthColID, " +
+                Medal.COL_COL_ID + " as ColID, " +
+                Medal.COL_ATH_ID + " as AthID, " +
                 Medal.COL_SPORT_ID + " as SportID, " +
                 Medal.COL_MEDAL_TYPE + " as MedalType " +
                 "FROM " + Medal.TABLE_MEDALS + " WHERE MedalID = ?";
@@ -109,7 +113,8 @@ public class MedalRepo {
         if (cursor.moveToFirst()) {
             do {
                 medal.setMedalID(cursor.getString(cursor.getColumnIndex("MedalID")));
-                medal.setAthColID(cursor.getString(cursor.getColumnIndex("AthColID")));
+                medal.setColID(cursor.getString(cursor.getColumnIndex("ColID")));
+                medal.setAthID(cursor.getString(cursor.getColumnIndex("AthID")));
                 medal.setSportID(cursor.getString(cursor.getColumnIndex("SportID")));
                 medal.setMedalType(cursor.getString(cursor.getColumnIndex("MedalType")));
 

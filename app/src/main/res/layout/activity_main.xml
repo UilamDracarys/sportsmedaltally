@@ -45,7 +45,7 @@
                 android:background="@android:color/white"
                 android:elevation="2dp" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fabAddSport"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
@@ -53,7 +53,7 @@
                 android:layout_margin="16dp"
                 android:src="@drawable/ic_sport"
                 android:theme="@style/ThemeOverlay.AppCompat"
-                />
+                />-->
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fabAddAthlete"

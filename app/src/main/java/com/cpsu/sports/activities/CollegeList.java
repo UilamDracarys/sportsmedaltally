@@ -35,7 +35,7 @@ public class CollegeList extends AppCompatActivity {
 
     private void init() {
         fab = findViewById(R.id.fabAdd);
-        list = findViewById(R.id.sportList);
+        list = findViewById(R.id.collegeList);
 
         fab.setOnClickListener(new View.OnClickListener() {
 
@@ -51,10 +51,10 @@ public class CollegeList extends AppCompatActivity {
     private void loadColleges() {
         final CollegeRepo collegeRepo = new CollegeRepo();
         ArrayList<HashMap<String, String>> collegeList = collegeRepo.getCollegeList();
-        ListView lv = findViewById(R.id.sportList);
+        ListView lv = findViewById(R.id.collegeList);
         lv.setFastScrollEnabled(true);
         if (collegeList.size() != 0) {
-            lv = findViewById(R.id.sportList);
+            lv = findViewById(R.id.collegeList);
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
