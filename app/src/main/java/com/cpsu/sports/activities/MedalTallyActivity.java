@@ -49,29 +49,6 @@ public class MedalTallyActivity extends AppCompatActivity {
         list = findViewById(R.id.collegeList);
     }
 
-    /*private void showPlacers() {
-        CollegeRepo collegeRepo = new CollegeRepo();
-        placers = new ArrayList<>();
-        placers = collegeRepo.getCollegeMedalList(sportID, "All");
-        champion = new ArrayList<>();
-        second = new ArrayList<>();
-        third = new ArrayList<>();
-
-        for (int i=0; i< placers.size(); i++) {
-            int rank = Integer.parseInt(placers.get(i).get("Rank"));
-            if (rank == 1) {
-                champion.add(placers.get(i).get("Name"));
-            }
-
-            if (rank == 2) {
-                second.add(placers.get(i).get("Name"));
-            }
-
-            if (rank == 3) {
-                third.add(placers.get(i).get("Name"));
-            }
-        }
-    }*/
 
     private void loadColleges() {
         final CollegeRepo collegeRepo = new CollegeRepo();
@@ -94,7 +71,6 @@ public class MedalTallyActivity extends AppCompatActivity {
                         intent.putExtra("collegeId", collegeId);
                         startActivity(intent);
                     }
-
                 }
             });
 
@@ -109,4 +85,6 @@ public class MedalTallyActivity extends AppCompatActivity {
             lv.setAdapter(adapter);
         }
     }
+
+
 }

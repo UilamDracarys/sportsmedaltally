@@ -13,6 +13,8 @@ public class Game {
     public static final String COL_MEDAL_TYPE = "medal_type";
     public static final String COL_WINNER_ID = "winner_id";
     public static final String COL_LOSER_ID = "loser_id";
+    public static final String COL_WIN_ATH_ID = "win_ath_id";
+    public static final String COL_LOS_ATH_ID = "los_ath_id";
 
     private String gameId;
     private String gameNo;
@@ -20,6 +22,24 @@ public class Game {
     private String medalType;
     private String winnerId;
     private String loserId;
+    private String winnerAthId;
+    private String loserAthId;
+
+    public String getWinnerAthId() {
+        return winnerAthId;
+    }
+
+    public void setWinnerAthId(String winnerAthId) {
+        this.winnerAthId = winnerAthId;
+    }
+
+    public String getLoserAthId() {
+        return loserAthId;
+    }
+
+    public void setLoserAthId(String loserAthId) {
+        this.loserAthId = loserAthId;
+    }
 
     public String getGameId() {
         return gameId;

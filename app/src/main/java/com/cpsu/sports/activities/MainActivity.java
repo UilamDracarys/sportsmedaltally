@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
         isFabOpen = true;
         fabAddMedal.animate().translationY(-160);
         fabAddAthlete.animate().translationY(-315);
+
         //fabAddSport.animate().translationY(-470);
     }
 

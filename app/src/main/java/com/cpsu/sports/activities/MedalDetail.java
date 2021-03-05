@@ -33,7 +33,7 @@ import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 
 public class MedalDetail extends AppCompatActivity implements View.OnClickListener {
     Spinner mSpnMedalType, mSpnSport;
-    String title, sportID, winnerID, loserID, clickedText;
+    String title, sportID, winnerID, loserID, winnerAthId, loserAthId, clickedText;
     SpinnerDialog mSpnAthCol;
     ArrayList<String> athColList;
     TextInputEditText mTxtGameNo;
@@ -69,7 +69,8 @@ public class MedalDetail extends AppCompatActivity implements View.OnClickListen
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mTxtWinner.setText("Tap to Set");
                 mTxtLoser.setText("Tap to Set");
-                SportRepo sportRepo = new SportRepo();
+                final SportRepo sportRepo = new SportRepo();
+                final GameRepo gameRepo = new GameRepo();
                 TextView txtSportID = mSpnSport.getSelectedView().findViewById(R.id.ID);
                 sportID = txtSportID.getText().toString().trim();
                 String sportType = sportRepo.getSportType(sportID);
@@ -84,16 +85,31 @@ public class MedalDetail extends AppCompatActivity implements View.OnClickListen
                     athColList = null;
                 }
                 mSpnAthCol = new SpinnerDialog(MedalDetail.this, athColList, "Select " + listType);
+                final String finalListType = listType;
                 mSpnAthCol.bindOnSpinerListener(new OnSpinerItemClick() {
                     @Override
                     public void onClick(String s, int i) {
                         if (s != null) {
 
                             if (clickedText.equalsIgnoreCase("W")) {
-                                winnerID = s.substring(s.indexOf("[") + 1, s.indexOf("]"));
+                                String winnerId = s.substring(s.indexOf("[") + 1, s.indexOf("]"));
+                                if (finalListType.equalsIgnoreCase("College")) {
+                                    winnerID = winnerId;
+                                } else {
+                                    winnerID = gameRepo.getCollegeId(winnerId);
+                                    winnerAthId = winnerId;
+                                }
+
                                 mTxtWinner.setText(s);
                             } else {
-                                loserID = s.substring(s.indexOf("[") + 1, s.indexOf("]"));
+                                String loserId = s.substring(s.indexOf("[") + 1, s.indexOf("]"));
+
+                                if (finalListType.equalsIgnoreCase("College")) {
+                                    loserID = loserId;
+                                } else {
+                                    loserID = gameRepo.getCollegeId(loserId);
+                                    loserAthId = loserId;
+                                }
                                 mTxtLoser.setText(s);
                             }
 
@@ -238,12 +254,16 @@ public class MedalDetail extends AppCompatActivity implements View.OnClickListen
             String sportId = sportID;
             String wnID = winnerID;
             String lsID = loserID;
+            String wAthID = winnerAthId;
+            String lAthID = loserAthId;
 
             game.setGameNo(gameNo);
             game.setMedalType(medalType);
             game.setSportId(sportId);
             game.setWinnerId(wnID);
             game.setLoserId(lsID);
+            game.setWinnerAthId(wAthID);
+            game.setLoserAthId(lAthID);
 
             SportRepo sportRepo = new SportRepo();
             Sport sport = sportRepo.getSportByID(sportId);
