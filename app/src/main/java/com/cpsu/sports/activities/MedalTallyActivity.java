@@ -75,8 +75,7 @@ public class MedalTallyActivity extends AppCompatActivity {
 
     private void loadColleges() {
         final CollegeRepo collegeRepo = new CollegeRepo();
-        ArrayList<HashMap<String, String>> collegeList = collegeRepo.getCollegeMedalList(sportID, "All");
-        collegeRepo.getRanking(sportID);
+        ArrayList<HashMap<String, String>> collegeList = collegeRepo.getCollegeMedals(sportID);
         ListView lv = findViewById(R.id.collegeList);
         lv.setFastScrollEnabled(true);
         ListAdapter adapter;

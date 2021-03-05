@@ -3,6 +3,7 @@ package com.cpsu.sports.data.repo;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.JsonToken;
 
 import com.cpsu.sports.data.DBHelper;
 import com.cpsu.sports.data.DatabaseManager;
@@ -22,6 +23,7 @@ public class CollegeRepo {
     private DBHelper dbHelper;
     private SQLiteDatabase db;
     ArrayList<String> champs, second, third;
+    double goldWt = 1.0, silverWt = 0.5, bronzeWt = 0.25;
 
     public CollegeRepo() {
         College college = new College();
@@ -198,7 +200,7 @@ public class CollegeRepo {
     }
 
 
-    public ArrayList<HashMap<String, String>> getCollegeMedalList(String sportID, String medalType) {
+    /*public ArrayList<HashMap<String, String>> getCollegeMedalList(String sportID, String medalType) {
         dbHelper = new DBHelper();
         db = dbHelper.getReadableDatabase();
 
@@ -258,7 +260,7 @@ public class CollegeRepo {
                         "Silver: " + silver + "\n" +
                         "Bronze: " + bronze;
                 map.put("Medals", medals);
-                /*if (rowNumber > 1) {
+                *//*if (rowNumber > 1) {
                     if (total < prevMedalCount) {
                         ranking += 1;
                     }
@@ -273,7 +275,7 @@ public class CollegeRepo {
                 } else if (ranking == 3  && total > 0) {
                     rankWord = "3rd Placer";
                     third.add(collegeID);
-                }*/
+                }*//*
 
                 for (int i=0; i<finalRanking.size();i++){
                     if (finalRanking.get(i).get("ID").equalsIgnoreCase(collegeID)) {
@@ -294,7 +296,7 @@ public class CollegeRepo {
         cursor.close();
         DatabaseManager.getInstance().closeDatabase();
         return collegeList;
-    }
+    }*/
 
     public ArrayList<HashMap<String, String>> getCollegeMedals(String sportID, String medalType) {
         dbHelper = new DBHelper();
@@ -373,6 +375,95 @@ public class CollegeRepo {
         return collegeList;
     }
 
+    public ArrayList<HashMap<String, String>> getCollegeMedals(String sportID) {
+        dbHelper = new DBHelper();
+        db = dbHelper.getReadableDatabase();
+
+        String selectQuery = "SELECT c.college_id as CollegeID, " +
+                "c." + College.COL_COLLEGE_CODE + " as CollegeCode, \n" +
+                "c." + College.COL_COLLEGE_NAME + " as CollegeName, \n" +
+                "COUNT(CASE WHEN g." + Game.COL_MEDAL_TYPE + " = 'Gold' AND s." + Sport.COL_SPORT_ID + " ='" + sportID + "' THEN 1 END) Gold,\n" +
+                "COUNT(CASE WHEN g." + Game.COL_MEDAL_TYPE + " = 'Silver' AND s." + Sport.COL_SPORT_ID + " ='" + sportID + "' THEN 1 END) Silver,\n" +
+                "COUNT(CASE WHEN g." + Game.COL_MEDAL_TYPE + " = 'Bronze' AND s." + Sport.COL_SPORT_ID + " ='" + sportID + "' THEN 1 END) Bronze,\n" +
+                "COUNT(CASE WHEN s." + Sport.COL_SPORT_ID + " ='" + sportID + "' THEN 1 END) AS medal_count,\n" +
+                "(COUNT(CASE WHEN g.medal_type = 'Gold' AND s.sport_id ='" + sportID + "' THEN 1 END)) * " + goldWt + " as GoldWt,\n" +
+                "(COUNT(CASE WHEN g.medal_type = 'Silver' AND s.sport_id ='" + sportID + "' THEN 1 END)) * " + silverWt + " as SilverWt,\n" +
+                "(COUNT(CASE WHEN g.medal_type = 'Bronze' AND s.sport_id ='" + sportID + "' THEN 1 END)) * " + bronzeWt + " as BronzeWt,\n" +
+                "((COUNT(CASE WHEN g.medal_type = 'Gold' AND s.sport_id ='" + sportID + "' THEN 1 END)) * " + goldWt + ")+" +
+                "((COUNT(CASE WHEN g.medal_type = 'Silver' AND s.sport_id ='" + sportID + "' THEN 1 END)) * " + silverWt + ")+" +
+                "((COUNT(CASE WHEN g.medal_type = 'Bronze' AND s.sport_id ='" + sportID + "' THEN 1 END)) * " +  bronzeWt + ") as TotalWt\n" +
+                "FROM " + College.TABLE_COLLEGES + " c\n" +
+                "LEFT JOIN " + Game.TABLE_GAMES + " g\n" +
+                "JOIN " + Sport.TABLE_SPORTS + " s\n" +
+                "ON c." + College.COL_COLLEGE_ID + " = g." + Game.COL_WINNER_ID + "\n" +
+                "AND g." + Game.COL_SPORT_ID + " = s." + Sport.COL_SPORT_ID + "\n" +
+                "GROUP BY g." + Game.COL_WINNER_ID + "\n" +
+                "ORDER BY TotalWt DESC;";
+
+        System.out.println(selectQuery);
+
+        ArrayList<HashMap<String, String>> collegeList = new ArrayList<>();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            int rowNumber = 1;
+            int ranking = 1;
+
+            double prevMedalWt = cursor.getInt(cursor.getColumnIndex("TotalWt"));
+            do {
+                HashMap<String, String> map = new HashMap<>();
+                String rankWord = "";
+                String collegeID = cursor.getString(cursor.getColumnIndex("CollegeID"));
+                String collegeCode = cursor.getString(cursor.getColumnIndex("CollegeCode"));
+                String collegeName = cursor.getString(cursor.getColumnIndex("CollegeName"));
+                int gold = cursor.getInt(cursor.getColumnIndex("Gold"));
+                int silver = cursor.getInt(cursor.getColumnIndex("Silver"));
+                int bronze = cursor.getInt(cursor.getColumnIndex("Bronze"));
+                double totalWt = cursor.getDouble(cursor.getColumnIndex("TotalWt"));
+                String total = cursor.getString(cursor.getColumnIndex("medal_count"));
+
+                map.put("ID", collegeID);
+                map.put("Code", collegeCode);
+                map.put("Name", collegeName);
+                map.put("Gold", String.valueOf(gold));
+                map.put("Silver", String.valueOf(silver));
+                map.put("Bronze", String.valueOf(bronze));
+                map.put("Total", total);
+                map.put("TotalWt", String.valueOf(totalWt));
+                map.put("Medals", "Total: " + total + "\n" +
+                        "Gold: " + gold + "\n" +
+                        "Silver: " + silver + "\n" +
+                        "Bronze: " + bronze);
+
+                if (rowNumber > 1) {
+                    if (totalWt < prevMedalWt) {
+                        ranking += 1;
+                    }
+                }
+                map.put("Rank", String.valueOf(ranking));
+                if (ranking == 1 && totalWt > 0) {
+                    rankWord = "Champion";
+                } else if (ranking == 2 && totalWt > 0) {
+                    rankWord = "2nd Placer";
+                } else if (ranking == 3  && totalWt > 0) {
+                    rankWord = "3rd Placer";
+                } else {
+                    rankWord = "-";
+                }
+                map.put("RankWord", rankWord);
+                collegeList.add(map);
+                rowNumber++;
+                prevMedalWt = totalWt;
+                System.out.println("Map: " + map);
+
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        DatabaseManager.getInstance().closeDatabase();
+        return collegeList;
+    }
+/*
     public ArrayList<HashMap<String, String>> getRanking(String sportID) {
         ArrayList<HashMap<String, String>> totalRank = getCollegeMedals(sportID, "All");
         ArrayList<HashMap<String, String>> goldRank = getCollegeMedals(sportID, "Gold");
@@ -468,5 +559,5 @@ public class CollegeRepo {
             String secondValue = second.get(key);
             return firstValue.compareTo(secondValue);
         }
-    }
+    }*/
 }
